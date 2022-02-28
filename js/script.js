@@ -47,14 +47,28 @@ const showDetails = detail => {
         releaseMassage = "No Release date found"
     }
     div.innerHTML = `
-        <div class="card" style="width: 18rem;">
-            <img src="${detail.data.image}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">${detail.data.name}</h5>
-                <p class="card-text">${detail.data.brand}</p>
-                <p class="card-text">${releaseMassage}</p>
-            </div>
+    <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-lg-4">
+        <img src="${detail.data.image}" class="h-100 rounded-start" alt="...">
+      </div>
+      <div class="col-lg-8">
+        <div class="card-body">
+          <h5 class="card-title">${detail.data.name}</h5>
+          <p class="card-text">${detail.data.brand}</p>
+          <p class="card-text">${releaseMassage}</p>
+          <p class="card-text">Chipset : ${detail.data.mainFeatures.chipSet}</p>
+          <p class="card-text">Display : ${detail.data.mainFeatures.displaySize}</p>
+          <p class="card-text">Memory :${detail.data.mainFeatures.memory}</p>
+          <p class="card-text">Sensor : ${detail.data.mainFeatures.sensors}</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
+      </div>
+    </div>
+  </div>
     `
     detailContainer.appendChild(div);
 }
+
+
+
