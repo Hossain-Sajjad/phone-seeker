@@ -42,13 +42,17 @@ const showDetails = detail => {
     console.log(detail)
     const detailContainer = document.getElementById('detail-field');
     const div = document.createElement('div');
+    let releaseMassage = detail.data.releaseDate;
+    if (releaseMassage === '') {
+        releaseMassage = "No Release date found"
+    }
     div.innerHTML = `
         <div class="card" style="width: 18rem;">
             <img src="${detail.data.image}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${detail.data.name}</h5>
                 <p class="card-text">${detail.data.brand}</p>
-                <p class="card-text">${detail.data.releaseDate}</p>
+                <p class="card-text">${releaseMassage}</p>
             </div>
         </div>
     `
