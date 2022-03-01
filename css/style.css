@@ -1,3 +1,13 @@
+body{
+    font-family: 'Poppins', sans-serif !important;
+    background-color: #f5f5f5 !important;
+}
 #error{
     display: none;
+    color: red;
+    font-weight: 600;
+}
+#error p svg{
+    width: 1.75rem;
+    margin-right: 2px;
 }

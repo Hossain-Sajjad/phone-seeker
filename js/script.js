@@ -23,6 +23,7 @@ const showResults = phones => {
       phonesAmount = phones.data.slice(0, 20);
     }
     resultContainer.innerHTML = "";
+    document.getElementById('detail-field').innerHTML = '';
     document.getElementById('error').style.display = 'none';
     for (const phone of phonesAmount) {
       const div = document.createElement('div');
