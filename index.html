@@ -18,13 +18,18 @@
 
 <body>
     <!-- serach section  -->
-    <h1 class="text-center">Search Your Phone</h1>
     <div class="container">
-        <div class="d-flex w-50 mx-auto">
+        <h1 class="text-center mt-3">Search Your Phone</h1>
+        <div class="d-flex w-50 mx-auto my-4">
             <input id="input-field" class="form-control me-2" type="search" placeholder="Search Your Phone"
                 aria-label="Search">
             <button class="btn btn-outline-success" type="submit" onclick="searchButton()">Search</button>
         </div>
+    </div>
+
+    <!-- error section  -->
+    <div class="container" id="error">
+        <p>Please enter a valid input</p>
     </div>
 
     <!-- detail section  -->
