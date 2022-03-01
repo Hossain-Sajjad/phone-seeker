@@ -1,22 +1,25 @@
 const searchButton = () => {
-    const inputValue = document.getElementById('input-field').value;
-    loadApiResult(inputValue);
+  const inputValue = document.getElementById('input-field').value;
+  loadApiResult(inputValue);
 }
 
 const loadApiResult = inputValue => {
-    const url = `https://openapi.programming-hero.com/api/phones?search=${inputValue}`;
-    fetch(url)
-        .then(res => res.json())
-        .then(data => showResults(data))
+  const url = `https://openapi.programming-hero.com/api/phones?search=${inputValue}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => showResults(data))
 }
 
 const showResults = phones => {
-    console.log(phones)
-    const resultContainer = document.getElementById('result-field');
-    for (const phone of phones.data) {
-        const div = document.createElement('div');
-        div.classList.add('col-lg-4')
-        div.innerHTML = `
+  const resultContainer = document.getElementById('result-field');
+  let phonesAmount = phones.data;
+  if (phones.data.length > 20) {
+    phonesAmount = phones.data.slice(0, 20);
+  }
+  for (const phone of phonesAmount) {
+    const div = document.createElement('div');
+    div.classList.add('col-lg-4')
+    div.innerHTML = `
             <div class="card" style="width: 18rem;">
                 <img src="${phone.image}" class="card-img-top" alt="...">
                 <div class="card-body">
@@ -26,48 +29,47 @@ const showResults = phones => {
                 </div>
             </div>
         `
-        resultContainer.appendChild(div);
-    }
+    resultContainer.appendChild(div);
+  }
 }
 
 const detailButton = id => {
-    console.log(id)
-    const url = `https://openapi.programming-hero.com/api/phone/${id}`
-    fetch(url)
-        .then(res => res.json())
-        .then(data => showDetails(data))
+  console.log(id)
+  const url = `https://openapi.programming-hero.com/api/phone/${id}`
+  fetch(url)
+    .then(res => res.json())
+    .then(data => showDetails(data))
 }
 
 const showDetails = detail => {
-    console.log(detail)
-    const detailContainer = document.getElementById('detail-field');
-    const div = document.createElement('div');
-    let releaseMassage = detail.data.releaseDate;
-    if (releaseMassage === '') {
-        releaseMassage = "No Release date found"
-    }
-    div.innerHTML = `
+  console.log(detail)
+  const detailContainer = document.getElementById('detail-field');
+  const div = document.createElement('div');
+  let releaseMassage = detail.data.releaseDate;
+  if (releaseMassage === '') {
+    releaseMassage = "No Release date found"
+  }
+  div.innerHTML = `
     <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-lg-4">
-        <img src="${detail.data.image}" class="h-100 rounded-start" alt="...">
-      </div>
-      <div class="col-lg-8">
-        <div class="card-body">
-          <h5 class="card-title">${detail.data.name}</h5>
-          <p class="card-text">${detail.data.brand}</p>
-          <p class="card-text">${releaseMassage}</p>
-          <p class="card-text">Chipset : ${detail.data.mainFeatures.chipSet}</p>
-          <p class="card-text">Display : ${detail.data.mainFeatures.displaySize}</p>
-          <p class="card-text">Memory :${detail.data.mainFeatures.memory}</p>
-          <p class="card-text">Sensor : ${detail.data.mainFeatures.sensors}</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      <div class="row g-0">
+        <div class="col-lg-4">
+          <img src="${detail.data.image}" class="h-100 rounded-start" alt="...">
+        </div>
+        <div class="col-lg-8">
+          <div class="card-body">
+            <h5 class="card-title fw-bolder">${detail.data.name}</h5>
+            <p class="card-text fw-bolder">${detail.data.brand}</p>
+            <p class="card-text fw-bolder">${releaseMassage}</p>
+            <p class="card-text"><span class="fw-bolder">Chipset :</span> ${detail.data.mainFeatures.chipSet}</p>
+            <p class="card-text"><span class="fw-bolder">Display :</span> ${detail.data.mainFeatures.displaySize}</p>
+            <p class="card-text"><span class="fw-bolder">Memory :</span> ${detail.data.mainFeatures.memory}</p>
+            <p class="card-text"><span class="fw-bolder">Sensors :</span> ${detail.data.mainFeatures.sensors}</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     `
-    detailContainer.appendChild(div);
+  detailContainer.appendChild(div);
 }
 
 
