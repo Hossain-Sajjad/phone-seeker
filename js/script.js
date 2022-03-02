@@ -1,4 +1,6 @@
+// input field and search button 
 const searchButton = () => {
+  document.getElementById('spinner').style.display = 'block';
   const inputValue = document.getElementById('input-field').value;
   loadApiResult(inputValue);
   document.getElementById('input-field').value = '';
@@ -11,7 +13,10 @@ const loadApiResult = inputValue => {
     .then(data => showResults(data))
 }
 
+// showing search result 
 const showResults = phones => {
+  document.getElementById('spinner').style.display = 'none';
+  // input error handiling if api not found
   if (phones.status === false) {
     document.getElementById('error').style.display = 'block';
     document.getElementById('result-field').innerHTML = '';
@@ -21,6 +26,7 @@ const showResults = phones => {
     let phonesAmount = phones.data;
     if (phones.data.length > 20) {
       phonesAmount = phones.data.slice(0, 20);
+      showButton(phones);
     }
     resultContainer.innerHTML = "";
     document.getElementById('detail-field').innerHTML = '';
@@ -43,14 +49,16 @@ const showResults = phones => {
   }
 }
 
+// detail button added 
 const detailButton = id => {
-  console.log(id)
+  document.getElementById('spinner').style.display = 'block';
   const url = `https://openapi.programming-hero.com/api/phone/${id}`
   fetch(url)
     .then(res => res.json())
     .then(data => showDetails(data))
 }
 
+// detail result showed 
 const showDetails = detail => {
   console.log(detail)
   console.log(detail.data.others == undefined)
@@ -61,7 +69,9 @@ const showDetails = detail => {
     releaseMassage = "No Release date found"
   }
   detailContainer.innerHTML = "";
+  document.getElementById('spinner').style.display = 'none';
   if (detail.data.others != undefined) {
+    // when others data is present 
     div.innerHTML = `
       <div class="card my-3 py-3 border-success rounded-3">
         <div class="row g-0">
@@ -97,6 +107,7 @@ const showDetails = detail => {
         `
   }
   else {
+    // when others data is not present 
     div.innerHTML = `
     <div class="card my-3 py-3 border-success rounded-3">
       <div class="row g-0">
@@ -128,4 +139,35 @@ const showDetails = detail => {
 }
 
 
+const showButton = allData => {
+  console.log(allData)
+  const showAllButton = document.getElementById('showAllButton');
+  const div = document.createElement('div');
+  div.innerHTML = `
+      <button class="btn btn-outline-success" type="submit" onclick="detailButton('${allData}')">Show All</button>
+    `
+  showAllButton.appendChild(div);
+}
 
+const showAll = allData => {
+  const resultContainer = document.getElementById('result-field');
+  resultContainer.innerHTML = "";
+  // document.getElementById('detail-field').innerHTML = '';
+  // document.getElementById('error').style.display = 'none';
+  for (const phone of allData.data) {
+    const div = document.createElement('div');
+    div.classList.add('col-lg-3')
+    div.innerHTML = `
+            <div class="card" style="width: 18rem;">
+                <img src="${allData.image}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">${allData.phone_name}</h5>
+                    <p class="card-text">${allData.brand}</p>
+                    <button class="btn btn-outline-success" type="submit" onclick="detailButton('${allData.slug}')">Details</button>
+                </div>
+            </div>
+        `
+    resultContainer.appendChild(div);
+  }
+
+}

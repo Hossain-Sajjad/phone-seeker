@@ -11,3 +11,9 @@ body{
     width: 1.75rem;
     margin-right: 2px;
 }
+#showButton{
+    display: none;
+}
+#spinner{
+    display: none;
+}
