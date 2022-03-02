@@ -17,3 +17,6 @@ body{
 #spinner{
     display: none;
 }
+#showAllButton{
+    display: none;
+}

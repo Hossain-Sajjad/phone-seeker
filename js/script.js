@@ -3,7 +3,8 @@ const searchButton = () => {
   document.getElementById('spinner').style.display = 'block';
   const inputValue = document.getElementById('input-field').value;
   loadApiResult(inputValue);
-  document.getElementById('input-field').value = '';
+  // document.getElementById('input-field').value = '';
+  document.getElementById('showAllButton').style.display = 'none';
 }
 
 const loadApiResult = inputValue => {
@@ -26,7 +27,7 @@ const showResults = phones => {
     let phonesAmount = phones.data;
     if (phones.data.length > 20) {
       phonesAmount = phones.data.slice(0, 20);
-      showButton(phones);
+      showButton();
     }
     resultContainer.innerHTML = "";
     document.getElementById('detail-field').innerHTML = '';
@@ -35,7 +36,7 @@ const showResults = phones => {
       const div = document.createElement('div');
       div.classList.add('col-lg-4')
       div.innerHTML = `
-              <div class="card" style="width: 18rem;">
+              <div class="card pt-2 px-3" style="width: 18rem;">
                   <img src="${phone.image}" class="card-img-top" alt="...">
                   <div class="card-body">
                       <h5 class="card-title">${phone.phone_name}</h5>
@@ -44,6 +45,7 @@ const showResults = phones => {
                   </div>
               </div>
           `
+      // console.log(phone.slug);
       resultContainer.appendChild(div);
     }
   }
@@ -139,35 +141,38 @@ const showDetails = detail => {
 }
 
 
-const showButton = allData => {
-  console.log(allData)
-  const showAllButton = document.getElementById('showAllButton');
-  const div = document.createElement('div');
-  div.innerHTML = `
-      <button class="btn btn-outline-success" type="submit" onclick="detailButton('${allData}')">Show All</button>
-    `
-  showAllButton.appendChild(div);
+const showButton = () => {
+  document.getElementById('showAllButton').style.display = 'block';
 }
 
-const showAll = allData => {
+const showAll = () => {
+  const inputValue = document.getElementById('input-field').value;
+  document.getElementById('input-field').value = '';
+  const url = `https://openapi.programming-hero.com/api/phones?search=${inputValue}`;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => showAllResult(data))
+}
+
+const showAllResult = allData => {
+  document.getElementById('showAllButton').style.display = 'none';
   const resultContainer = document.getElementById('result-field');
   resultContainer.innerHTML = "";
-  // document.getElementById('detail-field').innerHTML = '';
-  // document.getElementById('error').style.display = 'none';
+  document.getElementById('detail-field').innerHTML = '';
+  document.getElementById('error').style.display = 'none'
   for (const phone of allData.data) {
     const div = document.createElement('div');
     div.classList.add('col-lg-3')
     div.innerHTML = `
-            <div class="card" style="width: 18rem;">
-                <img src="${allData.image}" class="card-img-top" alt="...">
+            <div class="card pt-2 px-3" style="width: 18rem;">
+                <img src="${phone.image}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">${allData.phone_name}</h5>
-                    <p class="card-text">${allData.brand}</p>
-                    <button class="btn btn-outline-success" type="submit" onclick="detailButton('${allData.slug}')">Details</button>
+                    <h5 class="card-title">${phone.phone_name}</h5>
+                    <p class="card-text">${phone.brand}</p>
+                    <button class="btn btn-outline-success" type="submit" onclick="detailButton('${phone.slug}')">Details</button>
                 </div>
             </div>
         `
     resultContainer.appendChild(div);
   }
-
 }
