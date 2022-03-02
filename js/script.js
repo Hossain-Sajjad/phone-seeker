@@ -45,7 +45,6 @@ const showResults = phones => {
                   </div>
               </div>
           `
-      // console.log(phone.slug);
       resultContainer.appendChild(div);
     }
   }
@@ -62,8 +61,6 @@ const detailButton = id => {
 
 // detail result showed 
 const showDetails = detail => {
-  console.log(detail)
-  console.log(detail.data.others == undefined)
   const detailContainer = document.getElementById('detail-field');
   const div = document.createElement('div');
   let releaseMassage = detail.data.releaseDate;
@@ -140,7 +137,7 @@ const showDetails = detail => {
   detailContainer.appendChild(div);
 }
 
-
+// show all section 
 const showButton = () => {
   document.getElementById('showAllButton').style.display = 'block';
 }
